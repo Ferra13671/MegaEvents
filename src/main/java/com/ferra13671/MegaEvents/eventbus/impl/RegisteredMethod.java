@@ -1,4 +1,4 @@
-package com.ferra13671.MegaEvents.eventbus;
+package com.ferra13671.MegaEvents.eventbus.impl;
 
 import java.lang.reflect.Method;
 

@@ -4,11 +4,6 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-/**
- * @author Ferra13671
- * @LastUpdate 1.4
- */
-
 public final class ListUtils {
 
     public static <T> Runnable convertToRunnable(List<T> list, Consumer<T> consumer) {

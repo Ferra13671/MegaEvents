@@ -8,7 +8,7 @@ public class ExampleEventThread extends Thread {
     public void run() {
         while (!isInterrupted()) {
             //Activating the test event
-            Main.eventBus.activate(Main.EVENT_DISPATCHER.createEvent(this.count++));
+            Main.eventBus.activate(new ExampleEvent(this.count++));
 
             try {
                 sleep(1000);

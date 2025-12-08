@@ -1,9 +1,7 @@
 package com.ferra13671.MegaEvents.event;
 
-import com.ferra13671.MegaEvents.eventbus.RegisteredMethod;
-import com.ferra13671.MegaEvents.exeptions.CreateEventInstanceException;
+import com.ferra13671.MegaEvents.eventbus.impl.RegisteredMethod;
 
-import java.lang.reflect.Constructor;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Consumer;
@@ -27,29 +25,6 @@ public class EventDispatcher<T extends Event<T>> {
      */
     public EventDispatcher(Class<T> eventClass) {
         this.eventClass = eventClass;
-    }
-
-    /**
-     * Creates a new event for this dispatcher.
-     *
-     * @param args arguments that will be passed to the event constructor.
-     * @return new event for this dispatcher.
-     */
-    public T createEvent(Object... args) {
-        try {
-            T event = null;
-            for (Constructor<?> constructor : eventClass.getConstructors()) {
-                try {
-                    event = (T) constructor.newInstance(args);
-                } catch (Exception ignored) {}
-            }
-            if (event == null)
-                throw new Exception("Failed create event instance: ".concat(eventClass.getName()));
-            event.setEventDispatcher(this);
-            return event;
-        } catch (Exception e) {
-            throw new CreateEventInstanceException(e);
-        }
     }
 
     /**
