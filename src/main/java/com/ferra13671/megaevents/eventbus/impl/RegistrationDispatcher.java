@@ -7,6 +7,7 @@ import com.ferra13671.megaevents.eventbus.EventSubscriber;
 import com.ferra13671.megaevents.exeptions.InvokeRegisteredMethodException;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -19,7 +20,7 @@ public abstract class RegistrationDispatcher<T> {
         @Override
         public void register(Object listener, EventBus eventBus) {
             for (Method method : listener.getClass().getDeclaredMethods()) {
-                if (method.isAnnotationPresent(EventSubscriber.class)) {
+                if (!Modifier.isStatic(method.getModifiers()) && method.isAnnotationPresent(EventSubscriber.class)) {
                     EventSubscriber annotation = method.getAnnotation(EventSubscriber.class);
                     Class<? extends Event> clazz = annotation.event()[0];
                     registerMethod(method, eventBus.getDispatcher(clazz), listener);
@@ -30,7 +31,30 @@ public abstract class RegistrationDispatcher<T> {
         @Override
         public void unregister(Object listener, EventBus eventBus) {
             for (Method method : listener.getClass().getDeclaredMethods()) {
-                if (method.isAnnotationPresent(EventSubscriber.class)) {
+                if (!Modifier.isStatic(method.getModifiers()) && method.isAnnotationPresent(EventSubscriber.class)) {
+                    EventSubscriber annotation = method.getAnnotation(EventSubscriber.class);
+                    Class<? extends Event> clazz = annotation.event()[0];
+                    unregisterMethod(method, eventBus.getDispatcher(clazz), listener);
+                }
+            }
+        }
+    };
+    public static final RegistrationDispatcher<Class<?>> CLASS = new RegistrationDispatcher<Class<?>>() {
+        @Override
+        public void register(Class<?> listener, EventBus eventBus) {
+            for (Method method : listener.getDeclaredMethods()) {
+                if (Modifier.isStatic(method.getModifiers()) && method.isAnnotationPresent(EventSubscriber.class)) {
+                    EventSubscriber annotation = method.getAnnotation(EventSubscriber.class);
+                    Class<? extends Event> clazz = annotation.event()[0];
+                    registerMethod(method, eventBus.getDispatcher(clazz), listener);
+                }
+            }
+        }
+
+        @Override
+        public void unregister(Class<?> listener, EventBus eventBus) {
+            for (Method method : listener.getClass().getDeclaredMethods()) {
+                if (Modifier.isStatic(method.getModifiers()) && method.isAnnotationPresent(EventSubscriber.class)) {
                     EventSubscriber annotation = method.getAnnotation(EventSubscriber.class);
                     Class<? extends Event> clazz = annotation.event()[0];
                     unregisterMethod(method, eventBus.getDispatcher(clazz), listener);

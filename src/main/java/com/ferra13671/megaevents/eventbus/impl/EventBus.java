@@ -17,6 +17,9 @@ public class EventBus implements IEventBus {
         if (listener instanceof LambdaListener<?>) {
             LambdaListener<?> lambdaListener = (LambdaListener<?>) listener;
             RegistrationDispatcher.LAMBDA.register(lambdaListener, this);
+        } else if (listener instanceof Class<?>) {
+            Class<?> clazz = (Class<?>) listener;
+            RegistrationDispatcher.CLASS.register(clazz, this);
         } else {
             RegistrationDispatcher.OBJECT.register(listener, this);
         }
@@ -27,6 +30,9 @@ public class EventBus implements IEventBus {
         if (listener instanceof LambdaListener<?>) {
             LambdaListener<?> lambdaListener = (LambdaListener<?>) listener;
             RegistrationDispatcher.LAMBDA.unregister(lambdaListener, this);
+        } else if (listener instanceof Class<?>) {
+            Class<?> clazz = (Class<?>) listener;
+            RegistrationDispatcher.CLASS.unregister(clazz, this);
         } else {
             RegistrationDispatcher.OBJECT.unregister(listener, this);
         }
