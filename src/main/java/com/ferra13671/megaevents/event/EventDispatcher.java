@@ -14,7 +14,7 @@ import java.util.function.Consumer;
  */
 public class EventDispatcher<T extends Event<T>> {
     /** List of all registered listeners for this dispatcher. **/
-    private final List<RegisteredMethod> registeredMap = new CopyOnWriteArrayList<>();
+    private final List<RegisteredMethod> registeredList = new CopyOnWriteArrayList<>();
     /** Method to call all registered listeners. **/
     private Consumer<List<Object>> invokeConsumer = (args) -> {};
     /** Event class that the dispatcher should handle. **/
@@ -32,8 +32,8 @@ public class EventDispatcher<T extends Event<T>> {
      *
      * @return list of all registered listeners for this dispatcher.
      */
-    public List<RegisteredMethod> getRegisteredMap() {
-        return registeredMap;
+    public List<RegisteredMethod> getRegisteredList() {
+        return registeredList;
     }
 
     /**

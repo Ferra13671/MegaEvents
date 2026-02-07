@@ -35,14 +35,4 @@ publishing {
             artifact sourcesJar
         }
     }
-
-    repositories {
-        mavenLocal()
-        maven {
-            name = "GithubPackages"
-            url = new URI("https://maven.pkg.github.com/Ferra13671/mega-events")
-            credentials.username = System.getenv("GITHUB_ACTOR")
-            credentials.password = System.getenv("GITHUB_TOKEN")
-        }
-    }
 }
