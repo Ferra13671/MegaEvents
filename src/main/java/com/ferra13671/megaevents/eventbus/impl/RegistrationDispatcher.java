@@ -98,7 +98,7 @@ public abstract class RegistrationDispatcher<T> {
     protected void registerMethod(Method method, EventDispatcher<?> dispatcher, Object listener) {
         boolean needAdd = true;
         for (RegisteredMethod registeredMethod : dispatcher.getRegisteredList()) {
-            if (registeredMethod.method.equals(method)) {
+            if (registeredMethod.method.equals(method) && registeredMethod.object.equals(listener)) {
                 needAdd = false;
                 break;
             }
