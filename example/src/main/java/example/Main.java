@@ -1,8 +1,8 @@
 package example;
 
-import com.ferra13671.MegaEvents.eventbus.impl.EventBus;
-import com.ferra13671.MegaEvents.eventbus.IEventBus;
-import com.ferra13671.MegaEvents.eventbus.impl.LambdaListener;
+import com.ferra13671.megaevents.eventbus.impl.EventBus;
+import com.ferra13671.megaevents.eventbus.IEventBus;
+import com.ferra13671.megaevents.eventbus.impl.LambdaListener;
 
 public class Main {
 

@@ -1,7 +1,7 @@
-package com.ferra13671.MegaEvents.eventbus;
+package com.ferra13671.megaevents.eventbus;
 
-import com.ferra13671.MegaEvents.event.Event;
-import com.ferra13671.MegaEvents.eventbus.impl.EventBus;
+import com.ferra13671.megaevents.event.Event;
+import com.ferra13671.megaevents.eventbus.impl.EventBus;
 
 /**
  * An interface that requires that an object have methods that implement EventBus.

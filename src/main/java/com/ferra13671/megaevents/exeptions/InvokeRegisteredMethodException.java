@@ -1,4 +1,4 @@
-package com.ferra13671.MegaEvents.exeptions;
+package com.ferra13671.megaevents.exeptions;
 
 /**
  * This exception is thrown when an error occurs while calling a registered method.

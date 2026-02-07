@@ -1,6 +1,6 @@
 package example;
 
-import com.ferra13671.MegaEvents.eventbus.EventSubscriber;
+import com.ferra13671.megaevents.eventbus.EventSubscriber;
 
 public class Listener {
 

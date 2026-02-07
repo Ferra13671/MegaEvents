@@ -1,10 +1,10 @@
-package com.ferra13671.MegaEvents.eventbus.impl;
+package com.ferra13671.megaevents.eventbus.impl;
 
-import com.ferra13671.MegaEvents.*;
-import com.ferra13671.MegaEvents.event.Event;
-import com.ferra13671.MegaEvents.event.EventDispatcher;
-import com.ferra13671.MegaEvents.eventbus.EventSubscriber;
-import com.ferra13671.MegaEvents.exeptions.InvokeRegisteredMethodException;
+import com.ferra13671.megaevents.*;
+import com.ferra13671.megaevents.event.Event;
+import com.ferra13671.megaevents.event.EventDispatcher;
+import com.ferra13671.megaevents.eventbus.EventSubscriber;
+import com.ferra13671.megaevents.exeptions.InvokeRegisteredMethodException;
 
 import java.lang.reflect.Method;
 import java.util.Collections;

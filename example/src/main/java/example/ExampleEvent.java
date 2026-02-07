@@ -1,6 +1,6 @@
 package example;
 
-import com.ferra13671.MegaEvents.event.Event;
+import com.ferra13671.megaevents.event.Event;
 
 public class ExampleEvent extends Event<ExampleEvent> {
     public final int count;

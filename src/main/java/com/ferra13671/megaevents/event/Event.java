@@ -1,6 +1,6 @@
-package com.ferra13671.MegaEvents.event;
+package com.ferra13671.megaevents.event;
 
-import com.ferra13671.MegaEvents.eventbus.IEventBus;
+import com.ferra13671.megaevents.eventbus.IEventBus;
 
 /**
  * The base class for all events.

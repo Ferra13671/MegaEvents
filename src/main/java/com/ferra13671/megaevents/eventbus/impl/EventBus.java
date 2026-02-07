@@ -1,8 +1,8 @@
-package com.ferra13671.MegaEvents.eventbus.impl;
+package com.ferra13671.megaevents.eventbus.impl;
 
-import com.ferra13671.MegaEvents.event.Event;
-import com.ferra13671.MegaEvents.event.EventDispatcher;
-import com.ferra13671.MegaEvents.eventbus.IEventBus;
+import com.ferra13671.megaevents.event.Event;
+import com.ferra13671.megaevents.event.EventDispatcher;
+import com.ferra13671.megaevents.eventbus.IEventBus;
 
 import java.util.*;
 

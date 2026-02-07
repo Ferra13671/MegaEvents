@@ -1,6 +1,6 @@
-package com.ferra13671.MegaEvents.eventbus.impl;
+package com.ferra13671.megaevents.eventbus.impl;
 
-import com.ferra13671.MegaEvents.event.Event;
+import com.ferra13671.megaevents.event.Event;
 
 import java.util.function.Consumer;
 

@@ -1,6 +1,6 @@
-package com.ferra13671.MegaEvents.eventbus;
+package com.ferra13671.megaevents.eventbus;
 
-import com.ferra13671.MegaEvents.event.Event;
+import com.ferra13671.megaevents.event.Event;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

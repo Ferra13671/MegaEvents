@@ -1,4 +1,4 @@
-package com.ferra13671.MegaEvents;
+package com.ferra13671.megaevents;
 
 import java.util.List;
 import java.util.function.BiConsumer;

@@ -1,6 +1,6 @@
-package com.ferra13671.MegaEvents.event;
+package com.ferra13671.megaevents.event;
 
-import com.ferra13671.MegaEvents.eventbus.impl.RegisteredMethod;
+import com.ferra13671.megaevents.eventbus.impl.RegisteredMethod;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
