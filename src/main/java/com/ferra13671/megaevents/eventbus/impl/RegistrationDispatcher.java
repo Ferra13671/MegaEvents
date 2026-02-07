@@ -41,11 +41,11 @@ public abstract class RegistrationDispatcher<T> {
     public static final RegistrationDispatcher<LambdaListener<?>> LAMBDA = new RegistrationDispatcher<LambdaListener<?>>() {
         @Override
         public void register(LambdaListener<?> listener, EventBus eventBus) {
-            for (Method method : listener.listener.getClass().getDeclaredMethods()) {
+            for (Method method : listener.getListener().getClass().getDeclaredMethods()) {
                 if (method.getParameterTypes().length > 0) {
                     try {
                         method.setAccessible(true);
-                        registerMethod(method, eventBus.getDispatcher(listener.clazz), listener.listener);
+                        registerMethod(method, eventBus.getDispatcher(listener.getClazz()), listener.getListener());
                     } catch (Exception ignored) {}
                 }
             }
@@ -53,10 +53,10 @@ public abstract class RegistrationDispatcher<T> {
 
         @Override
         public void unregister(LambdaListener<?> listener, EventBus eventBus) {
-            for (Method method : listener.listener.getClass().getDeclaredMethods()) {
+            for (Method method : listener.getListener().getClass().getDeclaredMethods()) {
                 if (method.getParameterTypes().length > 0) {
                     try {
-                        unregisterMethod(method, eventBus.getDispatcher(listener.clazz), listener.listener);
+                        unregisterMethod(method, eventBus.getDispatcher(listener.getClazz()), listener.getListener());
                     } catch (Exception ignored) {}
                 }
             }
@@ -85,10 +85,10 @@ public abstract class RegistrationDispatcher<T> {
     protected void recreateConsumer(EventDispatcher<?> eventDispatcher) {
         eventDispatcher.setInvokeConsumer(ListUtils.convertToConsumer(eventDispatcher.getRegisteredList(), ((registeredMethod, args) -> {
             try {
-                if (registeredMethod.ghostEvent)
-                    registeredMethod.method.invoke(registeredMethod.object);
+                if (registeredMethod.isGhostEvent())
+                    registeredMethod.getMethod().invoke(registeredMethod.getObject());
                 else
-                    registeredMethod.method.invoke(registeredMethod.object, args.toArray());
+                    registeredMethod.getMethod().invoke(registeredMethod.getObject(), args.toArray());
             } catch (Exception e) {
                 throw new InvokeRegisteredMethodException(e);
             }
@@ -98,7 +98,7 @@ public abstract class RegistrationDispatcher<T> {
     protected void registerMethod(Method method, EventDispatcher<?> dispatcher, Object listener) {
         boolean needAdd = true;
         for (RegisteredMethod registeredMethod : dispatcher.getRegisteredList()) {
-            if (registeredMethod.method.equals(method) && registeredMethod.object.equals(listener)) {
+            if (registeredMethod.getMethod().equals(method) && registeredMethod.getObject().equals(listener)) {
                 needAdd = false;
                 break;
             }
@@ -107,7 +107,7 @@ public abstract class RegistrationDispatcher<T> {
             dispatcher.getRegisteredList().add(new RegisteredMethod(listener, method, method.getParameterTypes().length == 0));
 
         dispatcher.getRegisteredList().sort(Comparator.comparing(registeredMethod ->
-                registeredMethod.method.isAnnotationPresent(EventSubscriber.class) ? registeredMethod.method.getAnnotation(EventSubscriber.class).priority() : 0
+                registeredMethod.getMethod().isAnnotationPresent(EventSubscriber.class) ? registeredMethod.getMethod().getAnnotation(EventSubscriber.class).priority() : 0
         ));
         Collections.reverse(dispatcher.getRegisteredList());
 
@@ -115,7 +115,7 @@ public abstract class RegistrationDispatcher<T> {
     }
 
     protected void unregisterMethod(Method method, EventDispatcher<?> dispatcher, Object listener) {
-        dispatcher.getRegisteredList().removeIf(registeredMethod -> registeredMethod.object.equals(listener) && registeredMethod.method.equals(method));
+        dispatcher.getRegisteredList().removeIf(registeredMethod -> registeredMethod.getObject().equals(listener) && registeredMethod.getMethod().equals(method));
 
         recreateConsumer(dispatcher);
     }
