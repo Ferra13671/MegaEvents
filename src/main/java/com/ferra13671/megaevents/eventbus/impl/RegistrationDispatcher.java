@@ -19,79 +19,71 @@ public abstract class RegistrationDispatcher<T> {
     public static final RegistrationDispatcher<Object> OBJECT = new RegistrationDispatcher<Object>() {
         @Override
         public void register(Object listener, EventBus eventBus) {
-            for (Method method : listener.getClass().getDeclaredMethods()) {
+            Utils.getAllMethods(listener.getClass()).forEach(method -> {
                 if (!Modifier.isStatic(method.getModifiers()) && method.isAnnotationPresent(EventSubscriber.class)) {
                     EventSubscriber annotation = method.getAnnotation(EventSubscriber.class);
                     Class<? extends Event> clazz = annotation.event()[0];
                     registerMethod(method, eventBus.getDispatcher(clazz), listener);
                 }
-            }
+            });
         }
 
         @Override
         public void unregister(Object listener, EventBus eventBus) {
-            for (Method method : listener.getClass().getDeclaredMethods()) {
+            Utils.getAllMethods(listener.getClass()).forEach(method -> {
                 if (!Modifier.isStatic(method.getModifiers()) && method.isAnnotationPresent(EventSubscriber.class)) {
                     EventSubscriber annotation = method.getAnnotation(EventSubscriber.class);
                     Class<? extends Event> clazz = annotation.event()[0];
                     unregisterMethod(method, eventBus.getDispatcher(clazz), listener);
                 }
-            }
+            });
         }
     };
     public static final RegistrationDispatcher<Class<?>> CLASS = new RegistrationDispatcher<Class<?>>() {
         @Override
         public void register(Class<?> listener, EventBus eventBus) {
-            for (Method method : listener.getDeclaredMethods()) {
+            Utils.getAllMethods(listener).forEach(method -> {
                 if (Modifier.isStatic(method.getModifiers()) && method.isAnnotationPresent(EventSubscriber.class)) {
                     EventSubscriber annotation = method.getAnnotation(EventSubscriber.class);
                     Class<? extends Event> clazz = annotation.event()[0];
                     registerMethod(method, eventBus.getDispatcher(clazz), listener);
                 }
-            }
-
-            Class<?> superClass = listener.getSuperclass();
-            if (superClass != Object.class)
-                register(superClass, eventBus);
+            });
         }
 
         @Override
         public void unregister(Class<?> listener, EventBus eventBus) {
-            for (Method method : listener.getClass().getDeclaredMethods()) {
+            Utils.getAllMethods(listener).forEach(method -> {
                 if (Modifier.isStatic(method.getModifiers()) && method.isAnnotationPresent(EventSubscriber.class)) {
                     EventSubscriber annotation = method.getAnnotation(EventSubscriber.class);
                     Class<? extends Event> clazz = annotation.event()[0];
                     unregisterMethod(method, eventBus.getDispatcher(clazz), listener);
                 }
-            }
-
-            Class<?> superClass = listener.getSuperclass();
-            if (superClass != Object.class)
-                unregister(superClass, eventBus);
+            });
         }
     };
     public static final RegistrationDispatcher<LambdaListener<?>> LAMBDA = new RegistrationDispatcher<LambdaListener<?>>() {
         @Override
         public void register(LambdaListener<?> listener, EventBus eventBus) {
-            for (Method method : listener.getListener().getClass().getDeclaredMethods()) {
+            Utils.getAllMethods(listener.getListener().getClass()).forEach(method -> {
                 if (method.getParameterTypes().length > 0) {
                     try {
                         method.setAccessible(true);
                         registerMethod(method, eventBus.getDispatcher(listener.getClazz()), listener.getListener());
                     } catch (Exception ignored) {}
                 }
-            }
+            });
         }
 
         @Override
         public void unregister(LambdaListener<?> listener, EventBus eventBus) {
-            for (Method method : listener.getListener().getClass().getDeclaredMethods()) {
+            Utils.getAllMethods(listener.getListener().getClass()).forEach(method -> {
                 if (method.getParameterTypes().length > 0) {
                     try {
                         unregisterMethod(method, eventBus.getDispatcher(listener.getClazz()), listener.getListener());
                     } catch (Exception ignored) {}
                 }
-            }
+            });
         }
     };
 
@@ -115,7 +107,7 @@ public abstract class RegistrationDispatcher<T> {
      * @param eventDispatcher event dispatcher.
      */
     protected void recreateConsumer(EventDispatcher<?> eventDispatcher) {
-        eventDispatcher.setInvokeConsumer(ListUtils.convertToConsumer(eventDispatcher.getRegisteredList(), ((registeredMethod, args) -> {
+        eventDispatcher.setInvokeConsumer(Utils.convertToConsumer(eventDispatcher.getRegisteredList(), ((registeredMethod, args) -> {
             try {
                 if (registeredMethod.isGhostEvent())
                     registeredMethod.getMethod().invoke(registeredMethod.getObject());

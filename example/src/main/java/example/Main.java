@@ -19,6 +19,7 @@ public class Main {
         eventBus.register(lambdaListener);
         eventBus.register(objectListener);
         eventBus.register(StaticListener.class);
+        eventBus.register(new SuperListener2());
 
         //Start a thread that will call the example event.
         new ExampleEventThread().start();
