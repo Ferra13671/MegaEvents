@@ -49,6 +49,10 @@ public abstract class RegistrationDispatcher<T> {
                     registerMethod(method, eventBus.getDispatcher(clazz), listener);
                 }
             }
+
+            Class<?> superClass = listener.getSuperclass();
+            if (superClass != Object.class)
+                register(superClass, eventBus);
         }
 
         @Override
@@ -60,6 +64,10 @@ public abstract class RegistrationDispatcher<T> {
                     unregisterMethod(method, eventBus.getDispatcher(clazz), listener);
                 }
             }
+
+            Class<?> superClass = listener.getSuperclass();
+            if (superClass != Object.class)
+                unregister(superClass, eventBus);
         }
     };
     public static final RegistrationDispatcher<LambdaListener<?>> LAMBDA = new RegistrationDispatcher<LambdaListener<?>>() {
